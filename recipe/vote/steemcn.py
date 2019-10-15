@@ -12,7 +12,7 @@ SEARCH_BY_TOKEN = "MARLIANS" # "UFM"
 TRIBE_TAG = "cn"
 APP = "steemcn"
 BENEFICIARY_ACCOUNT = "steem-drivers"
-BENEFICIARY_THRESHOLD = 5 # %
+BENEFICIARY_THRESHOLD = 3 # %
 # voter configuration
 VOTER_ACCOUNT = "steem-drivers"
 VOTE_TIMING = 15 # mins
