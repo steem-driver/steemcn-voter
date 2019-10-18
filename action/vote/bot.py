@@ -173,16 +173,19 @@ class VoteBot:
             self.append_to_vote_queue(post=c.get_comment())
 
         self.ctx(ops)
-        if self.what_to_vote(ops) and self.who_to_vote(author) and self.is_ready():
-            delay = self.when_to_vote(ops) # mins
-            if delay is not None and delay > 0:
-                secs = 60.0 * delay
-                logger.info("I'll vote after {} seconds".format(secs))
-                t = Timer(secs, perform_vote)
-                t.start()
-            else:
-                logger.info("I'll vote immediately")
-                perform_vote()
+        try:
+            if self.what_to_vote(ops) and self.who_to_vote(author) and self.is_ready():
+                delay = self.when_to_vote(ops) # mins
+                if delay is not None and delay > 0:
+                    secs = 60.0 * delay
+                    logger.info("I'll vote after {} seconds".format(secs))
+                    t = Timer(secs, perform_vote)
+                    t.start()
+                else:
+                    logger.info("I'll vote immediately")
+                    perform_vote()
+        except:
+            logger.error("Failed when watching the comment [{}] with error: {} .".format(ops, traceback.format_exc()))
 
     def run(self):
         self.start_vote_queue()
