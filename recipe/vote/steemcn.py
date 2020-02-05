@@ -9,7 +9,7 @@ from utils.logging.logger import logger
 
 # app specific parameter
 SEARCH_BY_TOKEN = "MARLIANS" # "UFM"
-TRIBE_TAG = "cn"
+TRIBE_TAG = "hive-180932" # "cn"
 APP = "steemcn"
 BENEFICIARY_ACCOUNT = "steem-drivers"
 BENEFICIARY_THRESHOLD = 3 # %
@@ -38,14 +38,11 @@ class SteemCnVoter(VoteRecipe):
         if is_post:
             logger.info("Find post {} published with [{}] app".format(self.ops.get_url(), APP))
             c = SteemComment(ops=ops)
-            beneficiary = c.get_beneficiaries(account=BENEFICIARY_ACCOUNT)
-            if beneficiary >= BENEFICIARY_THRESHOLD:
-                logger.info("Post {} has set {} beneficiary.".format(self.ops.get_url(), beneficiary))
-                if c.is_upvoted_by(self.by()):
-                    logger.info("Post {} is already upvoted. Skip.".format(c.get_url()))
-                    return False
-                else:
-                    return True
+            if c.is_upvoted_by(self.by()):
+                logger.info("Post {} is already upvoted. Skip.".format(c.get_url()))
+                return False
+            else:
+                return True
         return False
 
     def who_to_vote(self, author):
@@ -71,7 +68,7 @@ class SteemCnDailyVoter(SteemCnVoter):
 
     def config(self):
         return {
-            "token": SEARCH_BY_TOKEN, # the token is necessary because the query may miss some posts when the total number of tags exceeds 5
+            # "token": SEARCH_BY_TOKEN, # the token is necessary because the query may miss some posts when the total number of tags exceeds 5
             "tag": TRIBE_TAG,
             "days": VOTE_CYCLE
         }
